@@ -1,0 +1,78 @@
+# depslib dependency file v1.0
+1496365183 source:c:\users\neel\opengl\nbodies\opengl_template.cpp
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<iostream>
+	<cmath>
+	<SOIL.h>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<glm/gtc/type_ptr.hpp>
+	<glm/ext.hpp>
+	<glm/gtx/string_cast.hpp>
+	<glm/common.hpp>
+	<glm/detail/func_matrix.hpp>
+	<glm/detail/func_common.hpp>
+	"Shader.h"
+	"NBody.h"
+	"particle.h"
+
+1459023783 c:\users\neel\glew-1.13.0\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1459023395 c:\users\neel\glfw\include\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl3.h>
+	<GLES3/gl2ext.h>
+	<GLES3/gl31.h>
+	<GLES3/gl2ext.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	<GL/glu.h>
+
+1486912028 d:\soil\simple opengl image library\src\soil.h
+
+1486833629 c:\users\neel\opengl\nbodies\include\shader.h
+	<string>
+	<fstream>
+	<sstream>
+	<iostream>
+	<GL/glew.h>
+
+1496345409 source:c:\users\neel\opengl\nbodies\src\shader.cpp
+	"Shader.h"
+
+1496352573 c:\users\neel\opengl\nbodies\include\nbody.h
+	"particle.h"
+	<vector>
+	<string>
+	<iostream>
+	<fstream>
+	<thread>
+
+1496314131 c:\users\neel\opengl\nbodies\include\particle.h
+	<cmath>
+
+1496343887 source:c:\users\neel\opengl\nbodies\src\nbody.cpp
+	"NBody.h"
+
+1496164120 source:c:\users\neel\opengl\nbodies\src\particle.cpp
+	"particle.h"
+
+1496361770 source:c:\users\neel\opengl\nbodies\vertex1.c
+
