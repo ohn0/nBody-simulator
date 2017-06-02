@@ -55,8 +55,13 @@
 			<Add directory="D:/soil/Simple OpenGL Image Library/src" />
 		</Linker>
 		<Unit filename="fragment1" />
+		<Unit filename="include/NBody.h" />
 		<Unit filename="include/Shader.h" />
+		<Unit filename="include/particle.h" />
 		<Unit filename="openGL_template.cpp" />
+		<Unit filename="src/NBody.cpp" />
+		<Unit filename="src/Shader.cpp" />
+		<Unit filename="src/particle.cpp" />
 		<Unit filename="test.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

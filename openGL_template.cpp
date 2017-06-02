@@ -22,6 +22,7 @@ void mouse_callback(GLFWwindow*, double, double);
 void keyInteraction();
 bool keys[1024];
 bool firstMouse = true;
+bool update = false;
 GLFWwindow* window;
 int main(){
     glfwInit();
@@ -48,21 +49,21 @@ int main(){
         std::cout << "Failed to initializeGLEW" << std::endl;
         return -1;
     }
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     Shader shader("vertex1", "fragment1");
-    NBody N("nBodies.txt");
+    NBody N("nB3");
     std::vector<Particle>::iterator nBodyIterator = N.bodies.begin();
-    GLfloat vertices[N.bodies.size() * 2]; //Each body has an x,y coord
+    GLfloat vertices[] = {0.f, 0.f};
+    glm::vec3 vertexPositions[N.bodies.size()];
     int i = 0;
+//    std::cout << N.bodies.size() << std::endl;
     while(nBodyIterator != N.bodies.end()){
-        vertices[i++] = nBodyIterator->Rx;
-        vertices[i++] = nBodyIterator->Ry;
-        nBodyIterator++;
+        vertexPositions[i].x = nBodyIterator->Rx;
+        vertexPositions[i].y = nBodyIterator->Ry;
+        vertexPositions[i].z = 0.0f;
+        nBodyIterator++;i++;
     }
     GLuint VBO;
     GLuint VAO;
@@ -75,22 +76,35 @@ int main(){
     glVertexAttribPointer(0,2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)  0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
-    std::cout << N.bodies.size() * 2<< std::endl;
-    glm::mat4 orthoProj = glm::ortho(-100.0f, 100.f, -100.f, 100.f, 0.1f, 2.f);
-    for(i = 0; i < N.bodies.size() * 2; i++){
-        std::cout << vertices[i] << " x " <<  std::endl;
-    }
+    glm::mat4 orthoProj = glm::ortho(-1000.0f, 1000.f, -1000.f, 1000.f, 0.0f, 2.f);
+    std::cout << N.bodies.size() << std::endl;
+    shader.Use();
+    int projLoc = glGetUniformLocation(shader.Program, "projection");
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(orthoProj));
+    int j;
+    int modelLoc = glGetUniformLocation(shader.Program, "model");
     while(!glfwWindowShouldClose(window)){
+        if(update){
+//            update = false;
+            N.updateNbodies();
+//            N.printNbodies();
+        }
         glfwPollEvents();
         keyInteraction();
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         shader.Use();
-        int projLoc = glGetUniformLocation(shader.Program, "projection");
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(orthoProj));
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_POINT, 0, N.bodies.size() * 2);
-        glBindVertexArray(0);
+        j = 0;
+        while(j < N.bodies.size()){
+            glBindVertexArray(VAO);
+            glm::mat4 model;
+            model = glm::translate(model, glm::vec3(N.bodies[j].Rx, N.bodies[j].Ry, 0.0f));
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            j++;
+            glDrawArrays(GL_POINTS, 0, 1);
+            glBindVertexArray(0);
+        }
+
         glfwSwapBuffers(window);
     }
     return 0;
@@ -100,6 +114,10 @@ void keyInteraction()
 {
     if(keys[GLFW_KEY_ESCAPE]){
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if(keys[GLFW_KEY_Z]){
+//        keys[GLFW_KEY_Z] = false;
+        update = true;
     }
 }
 
@@ -116,20 +134,4 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 
-//    GLfloat sensitivity = 0.05f;
-//    xoffset *= sensitivity;
-//    yoffset *= sensitivity;
-//    yaw += xoffset;
-//    pitch += yoffset;
-//    if(pitch > 89.0f){
-//        pitch = 89.0f;
-//    }
-//    if(pitch < -89.0f){
-//        pitch = -89.0f;
-//    }
-//    glm::vec3 front;
-//    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-//    front.y = sin(glm::radians(pitch));
-//    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-//    cameraFront = glm::normalize(front);
 }
