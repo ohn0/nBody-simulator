@@ -53,7 +53,7 @@ int main(){
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     Shader shader("vertex1", "fragment1");
-    NBody N("nB3");
+    NBody N("nB3", 3);
     std::vector<Particle>::iterator nBodyIterator = N.bodies.begin();
     GLfloat vertices[] = {0.f, 0.f};
     glm::vec3 vertexPositions[N.bodies.size()];

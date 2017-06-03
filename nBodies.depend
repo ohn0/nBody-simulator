@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1496428838 source:c:\users\neel\opengl\nbodies\opengl_template.cpp
+1496500510 source:c:\users\neel\opengl\nbodies\opengl_template.cpp
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	<iostream>
@@ -57,7 +57,7 @@
 1496345409 source:c:\users\neel\opengl\nbodies\src\shader.cpp
 	"Shader.h"
 
-1496352573 c:\users\neel\opengl\nbodies\include\nbody.h
+1496500090 c:\users\neel\opengl\nbodies\include\nbody.h
 	"particle.h"
 	<vector>
 	<string>
@@ -65,10 +65,10 @@
 	<fstream>
 	<thread>
 
-1496429193 c:\users\neel\opengl\nbodies\include\particle.h
+1496513919 c:\users\neel\opengl\nbodies\include\particle.h
 	<cmath>
 
-1496343887 source:c:\users\neel\opengl\nbodies\src\nbody.cpp
+1496504561 source:c:\users\neel\opengl\nbodies\src\nbody.cpp
 	"NBody.h"
 
 1496164120 source:c:\users\neel\opengl\nbodies\src\particle.cpp

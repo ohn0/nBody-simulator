@@ -1,7 +1,9 @@
 #include "NBody.h"
 
-NBody::NBody(const std::string& filename)
+NBody::NBody(const std::string& filename, int intervalLevel)
 {
+    intervalMax = intervalLevel;
+    intervalCurrent = 0;
     std::ifstream NBodyFile(filename);
     double value = 0;
 
@@ -33,6 +35,7 @@ void NBodyThreadUpdate(const std::vector<Particle>::iterator& currentBody, std::
     double gForce = 0;
     int workValues = bodySize/2;
     int j = 0;
+    double dist;
     std::vector<Particle>::iterator nBodyBegin = nBodyIterator;
     while(j < workValues && currentBody+j != nBodyEnd){
         *forceX = 0;
@@ -40,9 +43,10 @@ void NBodyThreadUpdate(const std::vector<Particle>::iterator& currentBody, std::
         nBodyIterator = nBodyBegin;
         while(nBodyIterator != nBodyEnd){
             if(nBodyIterator != currentBody+j){
-                gForce = (currentBody+j)->gravForce(*nBodyIterator);
-                *forceX = (currentBody+j)->forceComponentX(*nBodyIterator, gForce);
-                *forceY = (currentBody+j)->forceComponentY(*nBodyIterator, gForce);
+                dist = (currentBody+j)->distToParticle(*nBodyIterator);
+                gForce = (currentBody+j)->gravForce(*nBodyIterator, dist);
+                *forceX = (currentBody+j)->forceComponentX(*nBodyIterator, gForce, dist);
+                *forceY = (currentBody+j)->forceComponentY(*nBodyIterator, gForce, dist);
             }
             nBodyIterator++;
         }
@@ -67,24 +71,39 @@ void NBody::updateNbodies()
     double accelX, accelY;
     accelX = accelY = 0;
     std::vector<Particle>::iterator bodyIterator = bodies.begin();
-    std::vector<Particle>::iterator currentBody = bodies.begin();
-    int i = 0;
-    while(currentBody != bodies.end()){
+    std::vector<Particle>::iterator currentBody = bodies.begin() + intervalCurrent;
+    int i = intervalCurrent;
+    double bodyDist;
+    //Calculate gravitational force acting on each body
+    while(currentBody < bodies.end()){
         bodyIterator = bodies.begin();
         forceX[i] = 0;
         forceY[i] = 0;
         while(bodyIterator != bodies.end()){
             if(bodyIterator != currentBody){
-                gForce = currentBody->gravForce(*bodyIterator);
-                forceX[i] += currentBody->forceComponentX(*bodyIterator, gForce);
-                forceY[i] += currentBody->forceComponentY(*bodyIterator, gForce);
+                bodyDist = currentBody->distToParticle(*bodyIterator);
+                gForce = currentBody->gravForce(*bodyIterator, bodyDist);
+                forceX[i] += currentBody->forceComponentX(*bodyIterator, gForce, bodyDist);
+                forceY[i] += currentBody->forceComponentY(*bodyIterator, gForce, bodyDist);
             }
             bodyIterator++;
         }
-        currentBody++; i++;
+        currentBody += intervalMax; i+= intervalMax;
+//        std::cout << i << std::endl;
     }
-    i = 0;
-    bodyIterator = bodies.begin(); i = 0;
+    if(intervalCurrent == intervalMax - 1){
+        updatePositions();
+    }
+    intervalCurrent = (intervalCurrent+1)%intervalMax;
+}
+
+void NBody::updatePositions()
+{
+    //Update velocity and positions for all bodies
+    int i = 0;
+    double accelX, accelY;
+    accelX = accelY = 0;
+    std::vector<Particle>::iterator bodyIterator = bodies.begin();
     while(bodyIterator != bodies.end()){
         accelX = bodyIterator->accelComponentX(forceX[i]);
         accelY = bodyIterator->accelComponentY(forceY[i]);
@@ -94,7 +113,6 @@ void NBody::updateNbodies()
         bodyIterator->updateRy();
         bodyIterator++;i++;
     }
-
 }
 
 void NBody::printNbodies()

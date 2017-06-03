@@ -12,11 +12,14 @@ class NBody
     std::vector<double> forceY;
     std::vector<std::thread> bodyThreads;
     public:
+        int intervalMax;
+        int intervalCurrent;
         std::vector<Particle> bodies;
-        NBody(const std::string&);
+        NBody(const std::string&, int);
         virtual ~NBody();
         void updateNbodies();
         void printNbodies();
+        void updatePositions();
 
 };
 

@@ -22,21 +22,21 @@ double Particle::distToParticle(const Particle& nBody)
     return sqrt(deltaX + deltaY);
 }
 
-double Particle::gravForce(const Particle& nBody)
+double Particle::gravForce(const Particle& nBody, const double& dist)
 {
-    double dist = distToParticle(nBody);
+//    double dist = distToParticle(nBody);
     return ((GRAV_CONST * mass * nBody.mass)/(pow(dist, 2)));
 }
 
-double Particle::forceComponentX(const Particle& nBody, const double& gravForce)
+double Particle::forceComponentX(const Particle& nBody, const double& gravForce, const double& dist)
 {
-    double dist = distToParticle(nBody);
+//    double dist = distToParticle(nBody);
     return (gravForce* ((nBody.Rx - Rx)/dist));
 }
 
-double Particle::forceComponentY(const Particle& nBody, const double& gravForce)
+double Particle::forceComponentY(const Particle& nBody, const double& gravForce, const double& dist)
 {
-    double dist = distToParticle(nBody);
+//    double dist = distToParticle(nBody);
     return (gravForce * ((nBody.Ry - Ry)/dist));
 }
 

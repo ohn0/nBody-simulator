@@ -13,9 +13,9 @@ class Particle
         Particle(double Rx, double Ry, double Vx, double Vy, double mass) : Rx(Rx), Ry(Ry), Vx(Vx), Vy(Vy), mass(mass) { };
         virtual ~Particle();
         double distToParticle(const Particle&);
-        double gravForce(const Particle&);
-        double forceComponentX(const Particle&, const double&);
-        double forceComponentY(const Particle&, const double&);
+        double gravForce(const Particle&, const double&);
+        double forceComponentX(const Particle&, const double&, const double&);
+        double forceComponentY(const Particle&, const double&, const double&);
         double accelComponentX(const double&);
         double accelComponentY(const double&);
         void updateVx(double);
